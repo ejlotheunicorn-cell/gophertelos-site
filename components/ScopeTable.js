@@ -26,9 +26,14 @@ export default function ScopeTable() {
               />
               <span className="font-display text-lg font-semibold text-brand-ink">{r.grade}</span>
             </div>
-            <div className="text-sm leading-relaxed text-brand-ink/75 sm:px-6 sm:py-5">
-              {r.skills}
-            </div>
+            <ul className="space-y-1 text-sm leading-relaxed text-brand-ink/75 sm:px-6 sm:py-5">
+              {r.skills.map((skill, i) => (
+                <li key={i} className="flex gap-2">
+                  <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full" style={{ backgroundColor: r.hex }} aria-hidden />
+                  <span>{skill}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         ))}
       </div>

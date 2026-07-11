@@ -1,23 +1,20 @@
 // ---------------------------------------------------------------------------
 // GRADE DATA — drives the Shop grade cards and the Scope & Sequence table.
 //
-// ⚠️  IMPORTANT: The `skills` descriptions below are PLACEHOLDERS written from
-//     the build brief. They are NOT copied from your Parent & Teacher Guide.
-//     Replace each `skills:` line with the real "New skills introduced" text
-//     from your guide before publishing. Same for the card `blurb:` lines.
-//
-// Adding a new grade later = add one object here. Nothing else to touch.
-// The `hex` values are the Depth Color System (teal -> plum).
+// The `skills` lists are the real "New skills introduced" content from the
+// Parent & Teacher Guide. The card `blurb:` lines are short marketing summaries
+// (tweak freely). Adding a new grade later = add one object here — nothing else
+// to touch. The `hex` values are the Depth Color System, teal -> plum.
 // ---------------------------------------------------------------------------
 
 export const depthColors = {
-  prek: '#159A9C',
-  g1: '#1E88A8',
-  g2: '#3A6EA5',
-  g3: '#5B57A0',
-  g4: '#7A4A94',
-  g5: '#8C3A7A',
-  g6: '#7A2E56',
+  prek: '#15807F', // teal (shallow, transparent spelling)
+  g1: '#3A9D9D',
+  g2: '#5A8A9D',
+  g3: '#7A7A9D',
+  g4: '#8A6A9D',
+  g5: '#9A5A9D',
+  g6: '#7A2E56', // plum (full irregular English)
 };
 
 // Shop page — grade cards.
@@ -52,45 +49,42 @@ export const gradeCards = [
   { id: 'g6', name: 'Grade 6', hex: depthColors.g6, status: 'coming' },
 ];
 
-// Scope & Sequence page — one row per grade band.
-// ⚠️  Replace `skills` with the real text from your Parent & Teacher Guide.
+// Scope & Sequence page — one row per grade band. `skills` is a list of the
+// new skills introduced at that grade.
 export const scopeRows = [
   {
     grade: 'Pre-K / K',
     hex: depthColors.prek,
-    skills:
-      'Transparent one-letter-one-sound words; letter–sound foundations; the Simple sentence tier introduced.',
+    skills: ['CVC words', 'one sound per letter'],
   },
   {
     grade: 'Grade 1',
     hex: depthColors.g1,
-    skills:
-      'Short vowels consolidated; first controlled irregular spellings; the Compound sentence tier introduced.',
+    skills: ['Blends & digraphs (bl, cr, st, sh, ch, th)', 'simple past -ed'],
   },
   {
     grade: 'Grade 2',
     hex: depthColors.g2,
-    skills:
-      'Common vowel teams and digraphs; early morphology; the Complex sentence tier introduced.',
+    skills: ['Silent-e (CVCe)', 'vowel teams (ai, ee, oa, ea)', 'r-controlled (ar, er, ir, or, ur)'],
   },
   {
     grade: 'Grade 3',
     hex: depthColors.g3,
-    skills: 'Multi-syllable decoding; prefixes and suffixes; deeper orthographic patterns.',
+    skills: ['Multisyllabic decoding', 'prefixes/suffixes (un-, re-, -ing, -tion)', 'soft c/g'],
   },
   {
     grade: 'Grade 4',
     hex: depthColors.g4,
-    skills: 'Greek and Latin roots; advanced vowel patterns; richer syntax across all three tiers.',
+    skills: ['Advanced vowel teams', 'homophones', 'compound words', 'subordinate clauses'],
   },
   {
     grade: 'Grade 5',
     hex: depthColors.g5,
-    skills: 'Full morphological analysis; irregular and low-frequency spellings; nuanced semantics.',
+    skills: ['Latin/Greek roots', 'derivational morphology (-able, -ous, -ist)', 'multisyllabic fluency'],
   },
   {
     grade: 'Grade 6',
     hex: depthColors.g6,
-    skills: "Full English orthographic depth; fluent navigation of the language's trickiest patterns.",
+    skills: ['Advanced roots', 'academic vocabulary', 'complex sentences across all three tiers'],
   },
 ];

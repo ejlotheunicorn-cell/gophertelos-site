@@ -1,0 +1,26 @@
+/* OpenDyslexic — loaded from a CDN for the small demo callout on the Method page.
+   The rest of the site intentionally uses a clean web font (OpenDyslexic is a
+   print-product feature, not the brand font). To self-host instead, see README. */
+@import url('https://fonts.cdnfonts.com/css/open-dyslexic');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #FBF7F0; /* brand.cream */
+  color: #2A231E; /* brand.ink */
+}
+
+/* Nicer default heading rhythm */
+h1, h2, h3 {
+  text-wrap: balance;
+}

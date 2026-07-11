@@ -24,8 +24,8 @@ export const site = {
   //   - ConvertKit: https://app.convertkit.com/forms/000000/subscriptions                       | emailField: 'email_address'
   // Leave actionUrl empty to show a "not connected yet" note in place of a live form.
   emailSignup: {
-    actionUrl: '',        // TODO
-    emailField: 'EMAIL',  // change to match your provider (see above)
+    actionUrl: 'https://buttondown.com/api/emails/embed-subscribe/ejlotheunicorn',
+    emailField: 'email', // Buttondown uses the field name "email"
     method: 'post',
   },
 

@@ -44,6 +44,8 @@ export default function ContactForm() {
         <textarea id="message" name="message" rows={5} required className={inputCls} />
       </div>
 
+      {/* clearer subject line in your inbox */}
+      <input type="hidden" name="_subject" value="New message from gophertelosengine.com" />
       {/* simple spam honeypot */}
       <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
 

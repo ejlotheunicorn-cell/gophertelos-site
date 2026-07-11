@@ -36,7 +36,7 @@ export const site = {
   //   - A WordPress endpoint if you decide to keep WordPress for forms.
   // Leave actionUrl empty to show a "not connected yet" note.
   contact: {
-    actionUrl: '',  // TODO
+    actionUrl: 'https://formspree.io/f/xwvdgdap',
     method: 'post',
   },
 };

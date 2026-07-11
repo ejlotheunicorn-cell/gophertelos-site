@@ -36,6 +36,16 @@ export default function ContactPage() {
             <div className="mt-6">
               <ContactForm />
             </div>
+            <p className="mt-6 border-t border-brand-sand pt-4 text-sm text-brand-ink/70">
+              Prefer email? Write to{' '}
+              <a
+                href="mailto:info@gophertelosengine.com"
+                className="font-bold text-brand-teal hover:underline"
+              >
+                info@gophertelosengine.com
+              </a>
+              .
+            </p>
           </div>
 
           {/* Email signup, deliberately separate from the contact form */}

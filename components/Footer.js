@@ -28,6 +28,7 @@ export default function Footer() {
             <li><Link href="/method" className="hover:underline">The Method</Link></li>
             <li><Link href="/scope" className="hover:underline">Scope &amp; Sequence</Link></li>
             <li><Link href="/shop" className="hover:underline">Shop</Link></li>
+            <li><Link href="/blog" className="hover:underline">Blog</Link></li>
             <li><Link href="/contact" className="hover:underline">Contact &amp; Partnerships</Link></li>
           </ul>
         </div>

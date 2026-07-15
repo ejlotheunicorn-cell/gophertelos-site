@@ -10,6 +10,7 @@ const links = [
   { href: '/method', label: 'The Method' },
   { href: '/scope', label: 'Scope & Sequence' },
   { href: '/shop', label: 'Shop' },
+  { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ];
 

@@ -45,7 +45,7 @@ export default function GradeCard({ grade }) {
                 rel="noopener noreferrer"
                 className="text-sm font-bold text-brand-teal hover:underline"
               >
-                Try a free Day 1 sample →
+                Try a Day 1 sample →
               </a>
             )}
             <a

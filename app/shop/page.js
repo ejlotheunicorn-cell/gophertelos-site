@@ -5,7 +5,7 @@ import { gradeCards } from '@/data/grades';
 export const metadata = {
   title: 'Shop',
   description:
-    'The Gopher Telos Engine, available grade by grade. Try a free Day 1 sample, then shop the full program on Etsy.',
+    'The Gopher Telos Engine, available grade by grade. Try a Day 1 sample, then shop the full program on Etsy.',
 };
 
 // Companion products from the same family — shown tastefully below the curriculum.

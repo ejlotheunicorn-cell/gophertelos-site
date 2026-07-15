@@ -1,6 +1,6 @@
 import { getAllPosts } from '@/lib/posts';
 
-const SITE_URL = 'https://gophertelosengine.com';
+const SITE_URL = 'https://www.gophertelosengine.com';
 
 export default function sitemap() {
   const staticRoutes = ['', '/method', '/scope', '/shop', '/blog', '/contact'].map((p) => ({

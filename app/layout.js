@@ -20,7 +20,7 @@ const sans = Nunito_Sans({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://gophertelosengine.com'),
+  metadataBase: new URL('https://www.gophertelosengine.com'),
   title: {
     default: 'Gopher Telos Engine — Structured Literacy, Pre-K–Grade 6',
     template: '%s · Gopher Telos Engine',

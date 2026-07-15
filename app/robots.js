@@ -1,4 +1,4 @@
-const SITE_URL = 'https://gophertelosengine.com';
+const SITE_URL = 'https://www.gophertelosengine.com';
 
 export default function robots() {
   return {

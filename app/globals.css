@@ -1,11 +1,17 @@
-/* OpenDyslexic — loaded from a CDN for the small demo callout on the Method page.
-   The rest of the site intentionally uses a clean web font (OpenDyslexic is a
-   print-product feature, not the brand font). To self-host instead, see README. */
-@import url('https://fonts.cdnfonts.com/css/open-dyslexic');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* OpenDyslexic — self-hosted (SIL open license), used only for the demo callout
+   on the Method page. The rest of the site intentionally uses a clean web font
+   (OpenDyslexic is a print-product feature, not the brand font). */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/OpenDyslexic-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   color-scheme: light;

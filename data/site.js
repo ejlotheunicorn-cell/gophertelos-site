@@ -14,6 +14,7 @@ export const site = {
     g1: 'https://www.etsy.com/listing/4535967434/grade-1-reading-curriculum-full-year-36',
     g2: 'https://www.etsy.com/listing/4538912958/grade-2-reading-curriculum-full-year-36',
     g3: 'https://www.etsy.com/listing/4538947786/grade-3-reading-curriculum-full-year-36',
+    g4: 'https://www.etsy.com/listing/4538940553/grade-4-reading-curriculum-full-year-36',
   },
 
   // EMAIL LIST SIGNUP.

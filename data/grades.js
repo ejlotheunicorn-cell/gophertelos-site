@@ -59,7 +59,16 @@ export const gradeCards = [
     sampleUrl: null,
     etsyKey: 'g3',
   },
-  { id: 'g4', name: 'Grade 4', hex: depthColors.g4, status: 'coming' },
+  {
+    id: 'g4',
+    name: 'Grade 4',
+    hex: depthColors.g4,
+    status: 'available',
+    blurb:
+      'Advanced vowel teams, homophones, and subordinate clauses — the deep water begins.',
+    sampleUrl: null,
+    etsyKey: 'g4',
+  },
   { id: 'g5', name: 'Grade 5', hex: depthColors.g5, status: 'coming' },
   { id: 'g6', name: 'Grade 6', hex: depthColors.g6, status: 'coming' },
 ];

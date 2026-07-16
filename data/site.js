@@ -12,7 +12,8 @@ export const site = {
   etsy: {
     prek: 'https://www.etsy.com/listing/4534811335/gopher-telos-engine-phonics-program-pre',
     g1: 'https://www.etsy.com/listing/4535967434/grade-1-reading-curriculum-full-year-36',
-    // g2: not listed on Etsy yet — Grade 2 shows as "Coming soon" for now.
+    g2: 'https://www.etsy.com/listing/4538912958/grade-2-reading-curriculum-full-year-36',
+    g3: 'https://www.etsy.com/listing/4538947786/grade-3-reading-curriculum-full-year-36',
   },
 
   // EMAIL LIST SIGNUP.

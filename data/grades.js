@@ -39,11 +39,26 @@ export const gradeCards = [
     sampleUrl: 'https://www.etsy.com/listing/4535965128/grade-1-phonics-sample-trial-worksheet',
     etsyKey: 'g1',
   },
-  // Grade 2 isn't listed on Etsy yet — shown as "Coming soon". When it launches,
-  // set status: 'available', add a blurb, sampleUrl, and etsyKey: 'g2' (and add
-  // the g2 listing URL back into data/site.js).
-  { id: 'g2', name: 'Grade 2', hex: depthColors.g2, status: 'coming' },
-  { id: 'g3', name: 'Grade 3', hex: depthColors.g3, status: 'coming' },
+  {
+    id: 'g2',
+    name: 'Grade 2',
+    hex: depthColors.g2,
+    status: 'available',
+    blurb:
+      'Silent-e, vowel teams, and r-controlled vowels — the same 3×7 structure, one layer deeper.',
+    sampleUrl: null,
+    etsyKey: 'g2',
+  },
+  {
+    id: 'g3',
+    name: 'Grade 3',
+    hex: depthColors.g3,
+    status: 'available',
+    blurb:
+      'Multisyllabic decoding, prefixes and suffixes — where readers start taking on longer words.',
+    sampleUrl: null,
+    etsyKey: 'g3',
+  },
   { id: 'g4', name: 'Grade 4', hex: depthColors.g4, status: 'coming' },
   { id: 'g5', name: 'Grade 5', hex: depthColors.g5, status: 'coming' },
   { id: 'g6', name: 'Grade 6', hex: depthColors.g6, status: 'coming' },

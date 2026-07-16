@@ -41,6 +41,12 @@ export default function ShopPage() {
             Every purchase happens on our Etsy shop — your checkout, reviews, and instant download
             all live there. More grades are on the way.
           </p>
+          <p className="mt-5 text-base text-brand-ink/80">
+            Not sure yet?{' '}
+            <a href="/demo" className="font-bold text-brand-plum hover:underline">
+              Try the Engine live — an interactive sample →
+            </a>
+          </p>
         </Container>
       </section>
 

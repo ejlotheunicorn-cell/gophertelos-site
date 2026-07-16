@@ -40,6 +40,7 @@ export default function HomePage() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button href="/method">See the Method</Button>
+              <Button href="/demo" variant="plum">Try it live</Button>
               <Button href={site.etsyShopUrl} variant="secondary" external>
                 Shop on Etsy
               </Button>

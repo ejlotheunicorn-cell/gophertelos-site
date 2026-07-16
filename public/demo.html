@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Try the Engine — Interactive Sample · Gopher Telos Engine</title>
+<meta name="description" content="A live, clickable sample of the Gopher Telos Engine — the 3×7 Syntactic Matrix, word banks, phoneme warm-ups, and fluency drills for Pre-K/K and Grade 1.">
+<link rel="icon" href="/mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Gopher Telos brand palette — teal -> plum Depth Color System */
+  --ink:#2A231E;--ink-mid:#5C5248;--ink-soft:#8A7E70;--ink-faint:#CFC5B5;
+  --page:#FBF7F0;--page2:#F1E8D8;--page3:#E5DCC9;
+  --accent:#0F7B7B;--accent-l:#3A9D9D;--accent-bg:#E3F1F0;
+  --teal:#7A2E56;--teal-bg:#F4E6EE;
+  --amber:#8A5200;--amber-bg:#FEF0D6;
+  --coral:#B03A1E;--coral-bg:#FDEAE5;
+  --gold:#C98A00;--gold-bg:#FFF8E1;
+  --s1:#0F7B7B;--s2:#7A2E56;--s3:#C07B00;
+  --sh:0 1px 3px rgba(42,35,30,.08),0 4px 16px rgba(42,35,30,.06);
+  --r:10px;--rl:16px;
+  --f:'Nunito Sans','Segoe UI',system-ui,-apple-system,sans-serif;
+  --fd:'Fraunces',Georgia,serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--f);background:var(--page);color:var(--ink);min-height:100vh}
+.app{max-width:960px;margin:0 auto;padding:0 20px 60px}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(247,246,251,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--page3);padding:10px 20px;margin:0 -20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-size:15px;font-weight:700;color:var(--accent);letter-spacing:-.01em;flex-shrink:0}
+.brand span{color:var(--ink-soft);font-weight:400}
+.tabs{display:flex;gap:3px;background:var(--page2);border-radius:8px;padding:3px}
+.tab{padding:5px 11px;border-radius:6px;border:none;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--f);color:var(--ink-soft);background:transparent;transition:all .15s;white-space:nowrap}
+.tab.on{background:#fff;color:var(--accent);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.pills{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.pill{padding:4px 10px;border-radius:20px;border:1.5px solid var(--page3);font-size:11px;font-weight:700;cursor:pointer;background:#fff;color:var(--ink-mid);transition:all .15s;font-family:var(--f)}
+.pill.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.pill:hover:not(.on){border-color:var(--accent);color:var(--accent)}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0B4646 0%,#0F5B5B 55%,#5A2547 100%);border-radius:var(--rl);padding:36px 32px 28px;margin:18px 0 22px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(58,157,157,.25) 0%,transparent 70%)}
+.hero-ey{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8FD4CB;margin-bottom:8px}
+.hero h1{font-family:var(--fd);font-size:30px;font-weight:800;color:#fff;line-height:1.15;letter-spacing:-.02em;margin-bottom:8px}
+.hero h1 em{font-style:normal;color:#8FD4CB}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.6);line-height:1.65;max-width:540px;margin-bottom:22px}
+.hero-stats{display:flex;gap:26px;flex-wrap:wrap}
+.snum{font-size:24px;font-weight:800;color:#fff;line-height:1}
+.slbl{font-size:11px;color:rgba(255,255,255,.42);margin-top:2px}
+.nbadge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:#3A9D9D;color:#fff;padding:2px 5px;border-radius:3px;margin-left:5px;vertical-align:middle}
+
+/* DEMO BANNER */
+.demobar{background:#0B4646;color:#fff;margin:0 -20px;padding:9px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.demobar a{color:#8FD4CB;text-decoration:none;font-size:12px;font-weight:700}
+.demobar a:hover{text-decoration:underline}
+.demobar-note{font-size:12px;color:rgba(255,255,255,.75)}
+.demobar-cta{background:#fff;color:#0B4646!important;padding:5px 13px;border-radius:20px;font-size:12px;font-weight:800}
+.demobar-cta:hover{text-decoration:none!important;background:#E3F1F0}
+.cta-strip{margin-top:34px;background:linear-gradient(135deg,#0B4646,#5A2547);border-radius:var(--rl);padding:26px 28px;text-align:center}
+.cta-strip h3{font-family:var(--fd);font-size:20px;font-weight:800;color:#fff;margin-bottom:6px}
+.cta-strip p{font-size:13px;color:rgba(255,255,255,.7);margin-bottom:16px;line-height:1.6}
+.cta-strip .cta-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.cta-a{display:inline-block;background:#fff;color:#0B4646;font-size:13px;font-weight:800;padding:9px 20px;border-radius:24px;text-decoration:none}
+.cta-a:hover{background:#E3F1F0}
+.cta-b{display:inline-block;background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5);font-size:13px;font-weight:800;padding:8px 20px;border-radius:24px;text-decoration:none}
+.cta-b:hover{border-color:#fff}
+
+/* SECTION LABEL */
+.slabel{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);margin:26px 0 10px;display:flex;align-items:center;gap:8px}
+.slabel::after{content:'';flex:1;height:1px;background:var(--page3)}
+
+/* LEVEL HEADER */
+.lvlhead{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;background:#fff;border:1px solid var(--page3);border-radius:var(--rl);margin-bottom:14px;box-shadow:var(--sh)}
+.lvlemoji{width:50px;height:50px;border-radius:50%;background:var(--accent-bg);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.lvltitle{font-family:var(--fd);font-size:17px;font-weight:800;color:var(--ink);margin-bottom:2px;letter-spacing:-.01em}
+.lvlsub{font-size:12px;color:var(--ink-soft);margin-bottom:5px}
+.lvldesc{font-size:13px;color:var(--ink-mid);line-height:1.6}
+.tagrow{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px}
+.tp{background:var(--accent-bg);color:var(--accent)}
+.tt{background:var(--teal-bg);color:var(--teal)}
+.ta{background:var(--amber-bg);color:var(--amber)}
+.tn{background:#FFF0F0;color:var(--coral)}
+
+/* DEPTH BAR */
+.depthrow{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.depthlbl{font-size:12px;color:var(--ink-soft);min-width:128px}
+.depthtrack{flex:1;height:6px;background:var(--page2);border-radius:3px;overflow:hidden}
+.depthfill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.depthpct{font-size:12px;color:var(--ink-soft);min-width:34px;text-align:right}
+
+/* WORD BANKS */
+.wbanks{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-bottom:22px}
+.wbank{background:#fff;border:1px solid var(--page3);border-radius:var(--r);padding:14px;box-shadow:var(--sh)}
+.wbank-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.wbank h4{font-size:12px;font-weight:800;color:var(--ink)}
+.shuffle-btn{font-size:10px;font-weight:700;padding:3px 9px;border-radius:6px;border:1px solid var(--page3);background:var(--page2);color:var(--ink-mid);cursor:pointer;font-family:var(--f);transition:all .12s;display:flex;align-items:center;gap:4px}
+.shuffle-btn:hover{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+.wbank-sub{font-size:11px;color:var(--ink-soft);margin-bottom:9px;line-height:1.4}
+.wlist{display:flex;flex-wrap:wrap;gap:5px}
+.wchip{font-size:12px;padding:4px 9px;border-radius:6px;background:var(--page);border:1px solid var(--page3);cursor:pointer;transition:all .12s;color:var(--ink);font-weight:600;position:relative}
+.wchip:hover{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+.wchip.opq{border-style:dashed;color:var(--amber);background:var(--amber-bg);border-color:#F5C264}
+.wchip.opq:hover{background:#FAE3A0}
+.wchip.hm{padding-right:22px}
+.mtag{position:absolute;right:-1px;top:-1px;font-size:8px;font-weight:800;padding:1px 4px;border-radius:0 6px 0 4px;color:#fff;letter-spacing:.04em}
+.mtag.pfx{background:var(--accent)}
+.mtag.sfx{background:var(--teal)}
+.mtag.rt{background:var(--coral)}
+.morph-leg{display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--ink-mid);padding:9px 13px;background:var(--gold-bg);border-radius:8px;border:1px solid #F5C264;margin-bottom:10px}
+.mlb{font-size:9px;font-weight:800;padding:2px 5px;border-radius:3px;color:#fff}
+
+/* MATRIX */
+.mgrid{display:grid;grid-template-columns:22px repeat(3,1fr);gap:4px;margin-bottom:22px}
+.mch{font-size:11px;font-weight:800;text-align:center;padding:7px 5px;border-radius:6px;color:var(--ink-mid);border:1px solid var(--page3);background:var(--page2)}
+.mch.c1{border-top:2px solid var(--s1)}.mch.c2{border-top:2px solid var(--s2)}.mch.c3{border-top:2px solid var(--s3)}
+.mrn{font-size:11px;color:var(--ink-faint);display:flex;align-items:center;justify-content:center;font-weight:700}
+.mc{padding:9px 11px;font-size:12px;line-height:1.55;border-radius:7px;border:1px solid var(--page3);background:#fff;cursor:pointer;transition:all .14s;color:var(--ink);box-shadow:0 1px 2px rgba(28,26,46,.04)}
+.mc:hover{transform:translateY(-1px);box-shadow:var(--sh)}
+.mc.s1{border-left:2.5px solid var(--s1)}.mc.s1:hover{background:var(--accent-bg)}
+.mc.s2{border-left:2.5px solid var(--s2)}.mc.s2:hover{background:var(--teal-bg)}
+.mc.s3{border-left:2.5px solid var(--s3)}.mc.s3:hover{background:var(--amber-bg)}
+.mc-tip{font-size:10px;color:var(--ink-faint);margin-top:3px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px}
+.li{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--ink-mid)}
+.ld{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+
+/* WRITING ZONE */
+.wzone{background:#fff;border:1px solid var(--page3);border-radius:var(--rl);padding:18px;box-shadow:var(--sh)}
+.wzone h4{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:13px}
+.srow{display:flex;align-items:flex-start;gap:9px;margin-bottom:9px}
+.slbl2{flex-shrink:0;font-size:11px;font-weight:800;padding:6px 7px;border-radius:6px;min-width:30px;text-align:center;margin-top:3px}
+.slbl2.s1{background:var(--accent-bg);color:var(--accent)}
+.slbl2.s2{background:var(--teal-bg);color:var(--teal)}
+.slbl2.s3{background:var(--amber-bg);color:var(--amber)}
+.swrap{flex:1}
+.sinput{width:100%;border:1.5px solid var(--page3);border-radius:7px;padding:7px 11px;font-size:13px;font-family:var(--f);color:var(--ink);resize:vertical;min-height:40px;background:var(--page);transition:border-color .15s}
+.sinput:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(75,63,204,.08)}
+.shint{font-size:11px;color:var(--ink-soft);margin-top:4px;line-height:1.4}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.btn1{padding:8px 18px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--f);transition:background .15s}
+.btn1:hover{background:var(--accent-l)}.btn1:disabled{background:var(--ink-faint);cursor:wait}
+.btn2{padding:8px 13px;background:var(--page2);color:var(--ink-mid);border:1.5px solid var(--page3);border-radius:7px;font-size:13px;cursor:pointer;font-family:var(--f)}
+.btn2:hover{background:var(--page3)}
+.outbox{margin-top:13px;padding:14px;background:var(--page2);border-radius:9px;border:1px solid var(--page3);min-height:52px}
+.outpara{font-size:14px;line-height:1.9;margin-bottom:10px}
+.outpara .t1{color:var(--s1);font-weight:600}
+.outpara .t2{color:var(--s2);font-weight:600}
+.outpara .t3{color:var(--s3);font-weight:600}
+.aibox{background:#fff;border:1px solid var(--page3);border-left:3px solid var(--accent);border-radius:7px;padding:13px 15px}
+.ailbl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:7px}
+.aitext{font-size:13px;line-height:1.75;color:var(--ink);white-space:pre-wrap}
+.loading{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--accent)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 1.2s ease-in-out infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes pulse{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+
+/* PHONEME MODULE */
+.pmod{background:#fff;border:1px solid var(--page3);border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh);margin-bottom:18px}
+.pmod-head{padding:14px 18px;background:linear-gradient(90deg,#0B4646,#0F5B5B);display:flex;align-items:center;gap:10px}
+.pmod-head h3{font-size:14px;font-weight:700;color:#fff}
+.pmod-head p{font-size:12px;color:rgba(255,255,255,.5);margin-top:1px}
+.pmod-badge{background:#3A9D9D;color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:4px;letter-spacing:.07em;text-transform:uppercase;flex-shrink:0}
+.pexes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;background:var(--page3)}
+.pex{background:#fff;padding:16px 18px}
+.pxtype{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:var(--accent);margin-bottom:5px}
+.pxq{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:10px;line-height:1.5}
+.pxopts{display:flex;flex-wrap:wrap;gap:6px}
+.pxopt{padding:6px 13px;border-radius:7px;border:1.5px solid var(--page3);font-size:14px;font-weight:600;cursor:pointer;background:var(--page);transition:all .12s;font-family:var(--f);color:var(--ink)}
+.pxopt:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
+.pxopt.ok{background:var(--teal-bg);border-color:var(--teal);color:var(--teal)}
+.pxopt.no{background:var(--coral-bg);border-color:var(--coral);color:var(--coral);animation:shake .3s}
+.pxopt.dis{pointer-events:none}
+.pxfb{font-size:12px;margin-top:7px;min-height:17px;font-weight:600}
+.pscore{padding:11px 18px;background:var(--page2);display:flex;align-items:center;gap:10px;border-top:1px solid var(--page3)}
+.pslbl{font-size:13px;color:var(--ink-mid)}
+.pslbl strong{color:var(--accent)}
+.sdots{display:flex;gap:4px}
+.sdot{width:8px;height:8px;border-radius:50%;background:var(--page3);transition:background .3s}
+.sdot.hit{background:var(--teal)}.sdot.miss{background:var(--coral)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+/* FLUENCY MODULE */
+.fmod{background:#fff;border:1px solid var(--page3);border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh)}
+.fmod-head{padding:14px 18px;background:linear-gradient(90deg,#5A2547,#7A2E56);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.fmod-head h3{font-size:14px;font-weight:700;color:#fff}
+.fmod-head p{font-size:12px;color:rgba(255,255,255,.6);margin-top:1px}
+.fctrl{display:flex;align-items:center;gap:8px}
+.tdisp{font-size:26px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;min-width:54px;text-align:center;letter-spacing:-.02em}
+.tdisp.danger{color:#FFB3B3}.tdisp.done2{color:#A8FFDA}
+.spds{display:flex;gap:3px}
+.spd{padding:5px 9px;border:1.5px solid rgba(255,255,255,.35);border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,.65);font-family:var(--f);transition:all .15s}
+.spd.on{background:rgba(255,255,255,.9);color:var(--teal);border-color:transparent}
+.tbtn{padding:7px 14px;border:2px solid rgba(255,255,255,.35);border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;background:rgba(255,255,255,.15);color:#fff;font-family:var(--f);transition:all .15s}
+.tbtn.go{background:rgba(255,255,255,.9);color:var(--teal);border-color:transparent}
+.tbtn.go:hover{background:#fff}
+
+/* MODE TOGGLE inside fluency */
+.mode-toggle{display:flex;gap:0;background:rgba(255,255,255,.12);border-radius:7px;padding:3px;margin-right:4px}
+.modebt{padding:5px 11px;border-radius:5px;border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--f);color:rgba(255,255,255,.65);background:transparent;transition:all .15s}
+.modebt.on{background:rgba(255,255,255,.9);color:var(--teal)}
+
+.fbody{padding:16px 18px}
+.frow{display:grid;grid-template-columns:22px 1fr 1fr;gap:7px;padding:9px 0;border-bottom:1px solid var(--page2);align-items:start;position:relative}
+.frow:last-child{border:none}
+.frn{font-size:11px;color:var(--ink-faint);font-weight:700;padding-top:5px}
+.fcell{font-size:12px;line-height:1.55;color:var(--ink);padding:5px 9px;border-radius:6px;border-left:2px solid transparent;transition:all .2s}
+.fcell.s1{border-left-color:var(--s1)}.fcell.s2{border-left-color:var(--s2)}
+.fcell.cur{background:var(--gold-bg);border-left-color:var(--gold);font-weight:600}
+.fcell.dn{background:var(--teal-bg);border-left-color:var(--teal);opacity:.6}
+.fchk{font-size:10px;padding:3px 8px;border-radius:5px;border:1px solid var(--page3);cursor:pointer;background:var(--page);font-family:var(--f);font-weight:700;color:var(--ink-mid);transition:all .12s;position:absolute;right:0;top:50%;transform:translateY(-50%)}
+.fchk:hover{background:var(--teal-bg);border-color:var(--teal);color:var(--teal)}
+.fstats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px 18px;background:var(--page2);border-top:1px solid var(--page3)}
+.fst{text-align:center}
+.fstn{font-size:20px;font-weight:800;color:var(--ink)}
+.fstl{font-size:10px;color:var(--ink-soft);margin-top:1px}
+.fresult{padding:14px 18px;background:linear-gradient(90deg,var(--teal-bg),var(--accent-bg));border-top:1px solid var(--page3);display:none}
+.fresult.show{display:block}
+.fresult h4{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:5px}
+.fresult p{font-size:13px;color:var(--ink-mid);line-height:1.6}
+.band{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:7px}
+.b-slow{background:var(--coral-bg);color:var(--coral)}
+.b-bld{background:var(--amber-bg);color:var(--amber)}
+.b-flu{background:var(--teal-bg);color:var(--teal)}
+.b-adv{background:var(--accent-bg);color:var(--accent)}
+
+/* RAN DRILL */
+.ran-wrap{padding:18px}
+.ran-stream{display:flex;flex-wrap:wrap;gap:10px;padding:20px;background:var(--page2);border-radius:10px;min-height:80px;align-items:center;margin-bottom:14px}
+.ran-word{font-size:20px;font-weight:700;color:var(--ink);padding:4px 8px;border-radius:6px;transition:all .2s;cursor:default;border:2px solid transparent}
+.ran-word.cur{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+.ran-word.dn{color:var(--ink-faint);text-decoration:line-through}
+.ran-ctrls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.ran-info{font-size:13px;color:var(--ink-mid);line-height:1.6;padding:12px 14px;background:var(--gold-bg);border-radius:8px;border:1px solid #F5C264;margin-bottom:14px}
+.ran-info strong{color:var(--amber)}
+.ran-shuffle{padding:7px 14px;background:var(--page2);color:var(--ink-mid);border:1.5px solid var(--page3);border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--f)}
+.ran-shuffle:hover{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+.ran-next{padding:7px 14px;background:var(--teal);color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--f)}
+.ran-next:hover{background:var(--teal)}
+.ran-count{font-size:13px;color:var(--ink-soft)}
+
+/* API BANNER */
+.apibanner{background:var(--amber-bg);border:1px solid #F5C264;border-radius:10px;padding:13px 17px;margin-bottom:18px;display:flex;align-items:flex-start;gap:11px}
+.apibanner-t h4{font-size:13px;font-weight:700;color:var(--amber);margin-bottom:3px}
+.apibanner-t p{font-size:12px;color:var(--ink-mid);line-height:1.5}
+.apirow{margin-top:7px;display:flex;gap:7px}
+.apif{flex:1;padding:6px 10px;border:1.5px solid #F5C264;border-radius:6px;font-size:12px;font-family:var(--f);background:#fff}
+.apif:focus{outline:none;border-color:var(--accent)}
+.apis{padding:6px 13px;background:var(--amber);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--f)}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(18px);background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:9px 18px;border-radius:7px;opacity:0;transition:all .22s;pointer-events:none;z-index:999;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* FOOTER */
+.footer{margin-top:38px;padding-top:18px;border-top:1px solid var(--page3);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.footer-l{font-size:11px;color:var(--ink-soft);line-height:1.6}
+.footer-r{font-size:11px;color:var(--ink-faint)}
+
+@media(max-width:640px){
+  .hero h1{font-size:22px}.hero{padding:24px 18px 20px}
+  .mgrid{grid-template-columns:18px 1fr}
+  .mch:nth-child(3),.mch:nth-child(4),.mc.s2,.mc.s3{display:none}
+  .frow{grid-template-columns:18px 1fr}
+  .fcell.s2{display:none}
+  .fstats{grid-template-columns:repeat(2,1fr)}
+}
+@media print{.topbar,.hero,.acts,.apibanner,.pmod{display:none!important}}
+</style>
+</head>
+<body>
+<div id="toast" class="toast"></div>
+<div class="app">
+
+<div class="demobar">
+  <a href="/">← gophertelosengine.com</a>
+  <span class="demobar-note">You’re trying a live sample — Pre-K/K &amp; Grade 1</span>
+  <a class="demobar-cta" href="https://www.etsy.com/shop/JackOfAllUnicorns" target="_blank" rel="noopener noreferrer">Get the full program →</a>
+</div>
+
+<div class="topbar">
+  <div class="brand">Gopher Telos <span>Engine</span></div>
+  <div class="tabs">
+    <button class="tab on" onclick="switchTab('matrix')" id="tab-matrix">Matrix</button>
+    <button class="tab" onclick="switchTab('fluency')" id="tab-fluency">⏱ Fluency</button>
+    <button class="tab" onclick="switchTab('phoneme')" id="tab-phoneme">🔊 Phoneme</button>
+  </div>
+  <div class="pills" id="pills"></div>
+</div>
+
+<div class="hero">
+  <div class="hero-ey">Interactive Sample · Reading &amp; Writing System</div>
+  <h1>Try the Gopher Telos <em>Engine</em></h1>
+  <p>A mechanical scaffolding system built on the 3×7 Syntactic Matrix. Start in the shallow water. Navigate to the deep. This sample covers Pre-K/K and Grade 1 — the full program runs through Grade 6.</p>
+  <div class="hero-stats">
+    <div><div class="snum">3×7</div><div class="slbl">Syntax matrix</div></div>
+    <div><div class="snum">S1→S3</div><div class="slbl">Sentence gears</div></div>
+    <div><div class="snum">⚡</div><div class="slbl">RAN drill</div></div>
+    <div><div class="snum">∂</div><div class="slbl">Morphology tags</div></div>
+  </div>
+</div>
+
+<div id="content"></div>
+
+<div class="cta-strip">
+  <h3>This is Day 1 territory.</h3>
+  <p>The full Gopher Telos Engine gives your reader a whole year per grade — printable lessons, the complete word-bank system, and the full 3×7 sequence from Pre-K through Grade 6.</p>
+  <div class="cta-btns">
+    <a class="cta-a" href="https://www.etsy.com/shop/JackOfAllUnicorns" target="_blank" rel="noopener noreferrer">Get the full program on Etsy</a>
+    <a class="cta-b" href="/method">Read about the method</a>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-l">Gopher Telos Engine · Orthographic Depth research · 3×7 Syntactic Matrix<br>Phoneme Warm-Up · Morphology Tags · Fluency Timer · RAN Word String Drill</div>
+  <div class="footer-r"><a href="/" style="color:inherit">gophertelosengine.com</a></div>
+</div>
+</div>
+
+<script>
+// ═══════════════════════════════════
+// PUBLIC INTERACTIVE SAMPLE — Pre-K/K & Grade 1 only.
+// The full program (all grades, shuffling, guided feedback) lives on Etsy.
+// ═══════════════════════════════════
+
+// ═══════════════════════════════════
+// MASTER WORD POOL — 1500+ words
+// Organised by category, used across levels
+// ═══════════════════════════════════
+var WORDS = {
+  // ── CVC NOUNS (100)
+  cvcN:['cat','dog','sun','pig','bed','hen','log','pot','cup','cap','net','wig','van','bug','lip','rug','jug','mop','bun','fin','bat','bit','bog','box','bud','bus','cab','cob','cod','cog','cub','dam','den','dip','dot','dub','dug','elf','elk','elm','fab','fan','fat','fig','fit','fix','fob','fog','fop','fox','fun','gag','gal','gap','gas','gel','gem','gin','gob','god','got','gum','gun','gut','gym','had','ham','hap','hat','hid','him','hip','hit','hob','hod','hog','hop','hot','hub','hug','hum','hut','icy','ill','imp','ink','inn','ion','ivy','jab','jag','jam','jar','jaw','jet','jig','job','jog','jot','joy'],
+  // ── CVC VERBS (80)
+  cvcV:['ran','sat','bit','hop','dug','hid','lit','pat','sip','tap','wag','nap','beg','nod','rub','sob','jab','tug','zip','peg','bid','bob','bog','bow','bug','can','cap','cop','cut','dab','dam','did','dim','dip','dot','dug','fan','fix','fog','fry','gab','gag','gap','get','gig','got','had','hid','hit','hop','hum','hug','ink','jab','jam','jog','jot','lap','let','lid','lip','lop','lot','map','mat','mix','mob','mop','nab','nip','nod','pop','pot','rag','ram','rap','rat'],
+  // ── BLEND NOUNS (100)
+  blendN:['frog','drum','flag','plum','gate','lake','note','cave','robe','bike','step','grip','crab','clam','blob','slab','snap','grin','flap','clan','flab','cram','drip','drop','drug','drum','dusk','flop','flux','glow','glum','grab','grin','grit','grub','plug','plop','plop','pram','prep','prop','scab','scam','scan','scar','scat','scone','scoop','scot','scrag','scram','crest','crisp','crop','cross','crumb','grunt','gruel','graft','craft','cramp','clamp','clasp','cleft','cleft','click','cliff','cling','clip','clod','clog','clop','slot','slug','slum','slur','smack','smash','smell','smelt','smock','snag','snap','snare','snob','snod','snot','snub','speck','spell','spent','spill','spin','spit','spot','spud','spun','stab','stag','stem','step','stew','stick','stiff','still','sting'],
+  // ── BLEND VERBS (80)
+  blendV:['jump','lift','swim','melt','hunt','drift','climb','twist','grab','slip','clap','drop','flip','snap','stomp','stamp','blend','trust','drink','spend','blink','blend','block','blot','blow','blur','boil','bolt','bond','brag','brim','broil','brood','brush','build','bump','burn','bust','buzz','camp','cast','clam','clang','clap','clash','clasp','cleft','click','cling','clip','clod','fling','flit','float','flock','flog','flood','floop','flop','floss','flow','flunk','flush','fly','foam','fold','fort','foil','frisk','frost','frown','fume','fuss','gild','gimp','gist','glee','glib','gloat','glob','gloom','gloop','gloss'],
+  // ── SILENT-E WORDS (80)
+  silentE:['gate','lake','note','cave','robe','bike','kite','bone','name','rope','tune','file','wife','life','vote','side','rose','pine','vine','tone','lone','mole','pole','hole','role','tale','pale','sale','male','whale','flame','blame','frame','shake','snake','stake','stale','scale','smile','while','spine','shine','swine','shrine','quote','smote','wrote','drove','stove','stale','trade','grade','shade','blade','spade','price','slice','twice','mice','rice','spice','trace','grace','place','space','race','lace','pace','face','base','case','vase','dose','pose','nose','hose','those','whose','chose','froze','close','prose','globe','probe'],
+  // ── OPAQUE HIGH-FREQUENCY (120)
+  opaqueHF:['the','and','a','is','of','to','in','it','he','she','we','go','was','his','but','not','with','had','for','are','you','they','all','said','have','that','were','do','her','one','out','what','our','be','some','people','come','gone','done','once','again','every','other','who','two','from','through','where','because','want','water','above','move','thought','brought','caught','taught','bought','rough','tough','though','straight','weight','height','eight','knight','light','right','night','sight','fight','might','tight','sign','know','known','wrote','whole','could','would','should','many','their','there','which','whose','although','whether','neither','either','enough','once','always','never','often','whose','other','although','whether','answer','author','beauty','believe','build','busy','buy','chief','choose','color','come','cough','could','country','daughter','does','done','doubt','dough','drought','early','earn','eight','enough','eye','friend','front','give','gone'],
+  // ── MORPHOLOGY WORDS WITH TAGS (80)
+  morphW:[
+    {w:'jumping',m:'sfx',r:'jump+ing'},{w:'lifted',m:'sfx',r:'lift+ed'},{w:'swimmer',m:'sfx',r:'swim+mer'},
+    {w:'hunted',m:'sfx',r:'hunt+ed'},{w:'drifting',m:'sfx',r:'drift+ing'},{w:'climber',m:'sfx',r:'climb+er'},
+    {w:'twisted',m:'sfx',r:'twist+ed'},{w:'grabbing',m:'sfx',r:'grab+bing'},{w:'flipper',m:'sfx',r:'flip+per'},
+    {w:'unpack',m:'pfx',r:'un+pack'},{w:'refill',m:'pfx',r:'re+fill'},{w:'dusty',m:'sfx',r:'dust+y'},
+    {w:'golden',m:'sfx',r:'gold+en'},{w:'frozen',m:'sfx',r:'froze+n'},{w:'discovered',m:'pfx',r:'dis+cover+ed'},
+    {w:'unfolded',m:'pfx',r:'un+fold+ed'},{w:'connected',m:'pfx',r:'con+nect+ed'},{w:'navigated',m:'rt',r:'navig (sail)+ated'},
+    {w:'ignited',m:'rt',r:'igni (fire)+ted'},{w:'emerged',m:'pfx',r:'e+merge+d'},{w:'constructed',m:'rt',r:'con+struct+ed'},
+    {w:'suspended',m:'pfx',r:'sus+pend+ed'},{w:'transport',m:'rt',r:'trans+port (carry)'},{w:'audible',m:'rt',r:'aud (hear)+ible'},
+    {w:'graphic',m:'rt',r:'graph (write)+ic'},{w:'inspect',m:'rt',r:'in+spect (look)'},{w:'reflect',m:'pfx',r:'re+flect (bend)'},
+    {w:'transform',m:'pfx',r:'trans+form'},{w:'misread',m:'pfx',r:'mis+read'},{w:'connection',m:'sfx',r:'connect+ion'},
+    {w:'infrastructure',m:'rt',r:'infra+struct (build)+ure'},{w:'consequence',m:'rt',r:'con+sequ (follow)+ence'},
+    {w:'revelation',m:'rt',r:'re+vel (veil)+ation'},{w:'trajectory',m:'rt',r:'trans+ject (throw)+ory'},
+    {w:'equilibrium',m:'rt',r:'equi (equal)+libr+ium'},{w:'synthesis',m:'rt',r:'syn (together)+thesis'},
+    {w:'catastrophe',m:'rt',r:'cata (down)+strophe (turn)'},{w:'phenomenon',m:'rt',r:'pheno (appear)+menon'},
+    {w:'democracy',m:'rt',r:'demos (people)+kratos (rule)'},{w:'civilization',m:'rt',r:'civis (citizen)+ize+ation'},
+    {w:'legislation',m:'rt',r:'legis (law)+lation'},{w:'interpretation',m:'rt',r:'inter+pret+ation'},
+    {w:'transformation',m:'rt',r:'trans+form+ation'},{w:'correlation',m:'rt',r:'co+relat (relate)+ion'},
+    {w:'innovation',m:'rt',r:'in+nov (new)+ation'},{w:'sovereignty',m:'rt',r:'sovran (above)+ty'},
+    {w:'independence',m:'pfx',r:'in+depend+ence'},{w:'reorganize',m:'pfx',r:'re+organize'},
+    {w:'discomfort',m:'pfx',r:'dis+comfort'},{w:'unforgettable',m:'pfx',r:'un+forget+table'},
+    {w:'prehistoric',m:'pfx',r:'pre+historic'},{w:'supernatural',m:'pfx',r:'super+natural'},
+    {w:'microchip',m:'pfx',r:'micro+chip'},{w:'telescope',m:'rt',r:'tele (far)+scope (look)'},
+    {w:'photograph',m:'rt',r:'photo (light)+graph (write)'},{w:'geography',m:'rt',r:'geo (earth)+graphy (write)'},
+    {w:'biology',m:'rt',r:'bio (life)+logy (study)'},{w:'thermometer',m:'rt',r:'thermo (heat)+meter'},
+    {w:'microscope',m:'rt',r:'micro (small)+scope (look)'},{w:'autobiography',m:'rt',r:'auto+bio+graph+y'},
+    {w:'philanthropy',m:'rt',r:'philo (love)+anthrop (human)'},{w:'chronological',m:'rt',r:'chrono (time)+logical'},
+    {w:'biodiversity',m:'rt',r:'bio+divers+ity'},{w:'electromagnetic',m:'rt',r:'electro+magnetic'},
+    {w:'photosynthesis',m:'rt',r:'photo+syn+thesis'},{w:'cryptocurrency',m:'rt',r:'crypto+currency'},
+    {w:'hyperactive',m:'pfx',r:'hyper+active'},{w:'multitask',m:'pfx',r:'multi+task'},
+    {w:'underestimate',m:'pfx',r:'under+estimate'},{w:'overcomplicate',m:'pfx',r:'over+complicate'},
+    {w:'antibiotic',m:'pfx',r:'anti+bio+tic'},{w:'semiconductor',m:'pfx',r:'semi+conductor'},
+    {w:'postmodern',m:'pfx',r:'post+modern'},{w:'intercontinental',m:'pfx',r:'inter+continental'},
+    {w:'circumnavigate',m:'rt',r:'circum (around)+navig (sail)'},{w:'extraterrestrial',m:'pfx',r:'extra+terrestrial'}
+  ],
+};
+
+// ── SHUFFLE UTILITY
+function shuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function pick(arr,n){return shuffle(arr).slice(0,n)}
+
+// ── PER-LEVEL WORD BANK DEFINITIONS
+// Each bank has: title, sub, pool (key into WORDS or array), count, opaque?, morphPool?
+var LEVEL_BANKS = [
+  // RA
+  [
+    {title:'Nouns (things)',sub:'Safe zone — one letter, one sound',pool:'cvcN',count:20,opq:false},
+    {title:'Verbs (actions)',sub:'Action gears',pool:'cvcV',count:20,opq:false},
+    {title:'Anchors (⚠️ opaque)',sub:'Irregular — memorize these',pool:'opaqueHF',count:12,opq:true}
+  ],
+  // G1
+  [
+    {title:'Nouns',sub:'Blends + Silent-E — still shallow',pool:'blendN',count:20,opq:false},
+    {title:'Verbs',sub:'One-to-one action gears',pool:'blendV',count:20,opq:false},
+    {title:'Morphology words',sub:'Hover to see the root gear',pool:'morphW',count:10,opq:false,morph:true},
+    {title:'Anchors (⚠️ opaque)',sub:'Special gears — memorize, don\'t decode',pool:'opaqueHF',count:32,opq:true}
+  ],
+];
+
+// current shuffled bank cache per level
+var bankCache = {};
+function getBankWords(lvl,bi){
+  var key=lvl+'-'+bi;
+  if(!bankCache[key]) refreshBank(lvl,bi);
+  return bankCache[key];
+}
+function refreshBank(lvl,bi){
+  var def=LEVEL_BANKS[lvl][bi];
+  var key=lvl+'-'+bi;
+  var pool=WORDS[def.pool];
+  if(def.morph) pool=WORDS.morphW;
+  bankCache[key]=pick(pool,Math.min(def.count,pool.length));
+}
+
+// ── RAN pool per level (flat word strings, no meaning)
+function getRANWords(lvl,count){
+  count=count||30;
+  var pools=[];
+  if(lvl===0){pools=['cvcN','cvcV']}
+  else if(lvl===1){pools=['blendN','blendV','silentE']}
+  else if(lvl===2){pools=['twoSylN','twoSylV','silentE']}
+  else if(lvl===3){pools=['storyN','storyV','twoSylN']}
+  else if(lvl===4){pools=['abstractN','abstractV','storyN']}
+  else if(lvl===5){pools=['acadN','acadV','abstractN']}
+  else{pools=['acadN','acadV','abstractV']}
+  var all=[];
+  pools.forEach(function(p){if(WORDS[p])all=all.concat(WORDS[p].map(function(w){return typeof w==='object'?w.w:w}))});
+  return pick(all,count);
+}
+
+// ═══════════════════════════════════
+// LEVEL DATA
+// ═══════════════════════════════════
+var LEVELS=[
+  {id:0,grade:'Reading Age',emoji:'🌱',abbr:'RA',subtitle:'Pre-K – Kindergarten · Ages 4–6',
+   desc:'First exposure to the Engine. Every word is CVC — one letter, one sound. The 3×7 matrix uses three slots. Phoneme warm-up runs before every session.',
+   tags:[['CVC only','p'],['Zero opaque words','t'],['Phoneme warm-up','n']],depth:5,
+   phoneme:[
+     {type:'Rhyming',q:'Which word rhymes with CAT?',opts:['hat','dog','sun','lip'],ans:'hat'},
+     {type:'Blending',q:'Blend: /d/ /o/ /g/',opts:['dig','dog','dug','bag'],ans:'dog'},
+     {type:'Segmenting',q:'How many sounds in SUN?',opts:['1','2','3','4'],ans:'3'},
+     {type:'First sound',q:'What sound does PIG start with?',opts:['/p/','/b/','/f/','/d/'],ans:'/p/'},
+     {type:'Last sound',q:'What sound ends BED?',opts:['/b/','/d/','/t/','/g/'],ans:'/d/'}
+   ],
+   matrix:[
+     ['The cat sat.','The dog ran fast.','Because the sun was hot, the mud was wet.'],
+     ['The pig bit.','The bug hid well.','When the hen lit up, the fog was thin.'],
+     ['A cup fell.','The cap fit tight.','Since the net was big, the fish got out.'],
+     ['The wig slid.','A van sat still.','After the jug tipped, the log was wet.'],
+     ['The lip cut.','A rug sat flat.','If the pot was red, the cup was not.'],
+     ['The mop slid.','A bun sat hot.','While the van ran, the dog sat up.'],
+     ['The dog napped.','The hen sat still.','Because the cat ran back, the sun set red.']
+   ],
+   hints:['S1: Who + did what? Keep it to 3 words','S2: S1, and + a second idea','S3: Because / When / Since / After / If / While — then the result']},
+  {id:1,grade:'1st Grade',emoji:'🔧',abbr:'G1',subtitle:'Grade 1 · Ages 6–7',
+   desc:'Blend gears and Silent-E words enter. 32 Dolch anchor words. Morphology tags show word roots.',
+   tags:[['Blends + Silent-E','p'],['32 opaque anchors','t'],['Root tags','n']],depth:20,
+   phoneme:[
+     {type:'Blending',q:'Blend: /fr/ /o/ /g/',opts:['flag','frog','drug','grip'],ans:'frog'},
+     {type:'Segmenting',q:'How many sounds in STOP?',opts:['2','3','4','5'],ans:'4'},
+     {type:'Rhyming',q:'Which rhymes with GATE?',opts:['late','got','bit','run'],ans:'late'},
+     {type:'Manipulation',q:'Say BIKE. Change /b/ to /l/.',opts:['lake','like','life','lime'],ans:'like'},
+     {type:'Phoneme count',q:'How many sounds in SWIM?',opts:['3','4','5','2'],ans:'4'}
+   ],
+   matrix:[
+     ['The frog jumped.','The drum was loud, and the flag waved.','Because the gate was shut, the frog leaped back.'],
+     ['The crab crept.','The lake was cold, and the note was lost.','While the cave was dark, the boy crept inside.'],
+     ['The dog swam.','The grip was firm, and the robe was damp.','When the rock fell, the dog swam fast and hard.'],
+     ['A plum fell.','The step was slick, and the mud was thick.','Since the spin was fast, the top did not stop.'],
+     ['The bike spun.','The stamp was red, and the slot was slim.','After the drum beat, the flag was lifted up.'],
+     ['The blob dripped.','The clam was shut, and the rock was flat.','If the snap was loud, the crab would hide deep.'],
+     ['The boy climbed.','The frog was glad, and the plum was ripe.','Because the bike was fast, Cyrus rode to the gate.']
+   ],
+   hints:['S1: Subject + verb + optional object','S2: S1, and + second clause — match the weight','S3: Because / While / When / Since / After / If — then the consequence']}
+];
+
+// ═══════════════════════════════════
+// APP STATE
+// ═══════════════════════════════════
+var curLvl=0, curTab='matrix';
+var pxScores={};
+var timerSec=0,timerSpd=60,timerOn=false,timerInt=null;
+var fluencyDone=0;
+var fluencyMode='sentences'; // 'sentences' | 'ran'
+var ranWords=[],ranIdx=0;
+
+// ═══════════════════════════════════
+// RENDER PILLS
+// ═══════════════════════════════════
+function renderPills(){
+  document.getElementById('pills').innerHTML=LEVELS.map(function(L){
+    return '<button class="pill'+(L.id===curLvl?' on':'')+'" onclick="setLvl('+L.id+')">'+L.abbr+'</button>';
+  }).join('');
+}
+
+function setLvl(id){curLvl=id;bankCache={};renderPills();renderTab();window.scrollTo({top:0,behavior:'smooth'})}
+function switchTab(t){
+  curTab=t;
+  ['matrix','fluency','phoneme'].forEach(function(x){document.getElementById('tab-'+x).classList.toggle('on',x===t)});
+  renderTab();
+}
+
+// ═══════════════════════════════════
+// RENDER TAB
+// ═══════════════════════════════════
+function renderTab(){
+  var L=LEVELS[curLvl];
+  var h=renderLvlHead(L)+renderDepth(L.depth);
+  if(curTab==='matrix') h+=renderMorphLeg(curLvl)+renderWbanks(curLvl)+secLbl('3×7 Gopher Telos Matrix — click any cell to copy to writing zone')+renderLegend()+renderMatrix(L.matrix)+secLbl('Writing zone')+renderWriting(L.hints);
+  else if(curTab==='fluency') h+=renderFluency(L);
+  else if(curTab==='phoneme') h+=secLbl('🔊 Phoneme warm-up — complete before opening the matrix')+renderPhoneme(L);
+  document.getElementById('content').innerHTML=h;
+  setTimeout(function(){var f=document.getElementById('dfill');if(f)f.style.width=L.depth+'%';},60);
+  if(curTab==='fluency'){initFluency();addFluencyBtns()}
+  if(curTab==='phoneme') updatePxScore();
+}
+
+function secLbl(t){return '<div class="slabel">'+t+'</div>'}
+function renderLvlHead(L){
+  var tc={p:'tp',t:'tt',a:'ta',n:'tn'};
+  var tags=L.tags.map(function(t){return '<span class="tag '+tc[t[1]]+'">'+t[0]+'</span>';}).join('');
+  return '<div class="lvlhead"><div class="lvlemoji">'+L.emoji+'</div><div><div class="lvltitle">'+L.grade+'</div><div class="lvlsub">'+L.subtitle+'</div><div class="lvldesc">'+L.desc+'</div><div class="tagrow">'+tags+'</div></div></div>';
+}
+function renderDepth(d){
+  var c=d<30?'#1D9E75':d<60?'#C07B00':'#C03A1E';
+  return '<div class="depthrow"><span class="depthlbl">Orthographic depth</span><div class="depthtrack"><div class="depthfill" id="dfill" style="width:0%;background:'+c+'"></div></div><span class="depthpct">'+d+'%</span></div>';
+}
+function renderMorphLeg(lvl){
+  var hasMorph=LEVEL_BANKS[lvl].some(function(b){return b.morph});
+  if(!hasMorph)return '';
+  return '<div class="morph-leg"><span style="display:flex;align-items:center;gap:4px"><span class="mlb" style="background:var(--accent)">PRE</span> prefix</span><span style="display:flex;align-items:center;gap:4px"><span class="mlb" style="background:var(--teal)">SFX</span> suffix</span><span style="display:flex;align-items:center;gap:4px"><span class="mlb" style="background:var(--coral)">RT</span> root / etymology</span><span style="font-size:11px;color:var(--ink-soft)">Hover tagged words to see structure</span></div>';
+}
+
+// ═══════════════════════════════════
+// WORD BANKS
+// ═══════════════════════════════════
+function renderWbanks(lvl){
+  var defs=LEVEL_BANKS[lvl];
+  var html=secLbl('Word bank — click a word to insert it into your writing · ⚠️ = opaque')+'<div class="wbanks">';
+  defs.forEach(function(def,bi){
+    var words=getBankWords(lvl,bi);
+    html+='<div class="wbank"><div class="wbank-head"><h4>'+def.title+'</h4><button class="shuffle-btn" onclick="doShuffle('+lvl+','+bi+')">🔀 Shuffle</button></div>';
+    if(def.sub)html+='<div class="wbank-sub">'+def.sub+'</div>';
+    html+='<div class="wlist" id="wlist-'+lvl+'-'+bi+'">';
+    html+=renderChips(words,def.opq,def.morph,lvl,bi);
+    html+='</div></div>';
+  });
+  return html+'</div>';
+}
+
+function renderChips(words,isOpq,isMorph,lvl,bi){
+  return words.map(function(w){
+    var word=typeof w==='object'?w.w:w;
+    var morph=typeof w==='object'?w.m:null;
+    var root=typeof w==='object'?w.r:null;
+    var cls='wchip'+(isOpq||WORDS.opaqueHF.indexOf(word)>-1&&isOpq?' opq':'')+(morph?' hm':'');
+    var title=morph?root:(isOpq?'Opaque — memorize this':'Shallow — safe zone');
+    var mtag=morph?'<span class="mtag '+morph+'">'+morph.toUpperCase()+'</span>':'';
+    return '<span class="'+cls+'" onclick="insertWord(\''+esc(word)+'\')" title="'+(title||'')+'">'+word+mtag+'</span>';
+  }).join('');
+}
+
+function doShuffle(lvl,bi){
+  // Demo: shuffling fresh word sets is a full-program feature.
+  toast('🔀 Shuffling new word sets is part of the full program');
+}
+
+// ═══════════════════════════════════
+// MATRIX
+// ═══════════════════════════════════
+function renderLegend(){
+  return '<div class="legend"><div class="li"><div class="ld" style="background:var(--s1)"></div>S1 Simple</div><div class="li"><div class="ld" style="background:var(--s2)"></div>S2 Compound</div><div class="li"><div class="ld" style="background:var(--s3)"></div>S3 Complex</div></div>';
+}
+function renderMatrix(mx){
+  var rows=mx.map(function(r,i){
+    return '<div class="mrn">'+(i+1)+'</div>'+
+      '<div class="mc s1" onclick="copySlot(0,\''+esc(r[0])+'\')">'+r[0]+'<div class="mc-tip">tap → S1</div></div>'+
+      '<div class="mc s2" onclick="copySlot(1,\''+esc(r[1])+'\')">'+r[1]+'<div class="mc-tip">tap → S2</div></div>'+
+      '<div class="mc s3" onclick="copySlot(2,\''+esc(r[2])+'\')">'+r[2]+'<div class="mc-tip">tap → S3</div></div>';
+  }).join('');
+  return '<div class="mgrid"><div></div><div class="mch c1">S1 — Simple</div><div class="mch c2">S2 — Compound</div><div class="mch c3">S3 — Complex</div>'+rows+'</div>';
+}
+
+// ═══════════════════════════════════
+// WRITING ZONE
+// ═══════════════════════════════════
+function renderWriting(hints){
+  return '<div class="wzone"><h4>Build your own 3-sentence set</h4>'+
+    '<div class="srow"><span class="slbl2 s1">S1</span><div class="swrap"><textarea class="sinput" id="wi-s1" rows="2" placeholder="Write a Simple sentence…"></textarea><div class="shint">'+hints[0]+'</div></div></div>'+
+    '<div class="srow"><span class="slbl2 s2">S2</span><div class="swrap"><textarea class="sinput" id="wi-s2" rows="2" placeholder="Write a Compound sentence…"></textarea><div class="shint">'+hints[1]+'</div></div></div>'+
+    '<div class="srow"><span class="slbl2 s3">S3</span><div class="swrap"><textarea class="sinput" id="wi-s3" rows="2" placeholder="Write a Complex sentence…"></textarea><div class="shint">'+hints[2]+'</div></div></div>'+
+    '<div class="acts"><button class="btn1" onclick="buildParagraph()">Build my paragraph →</button><button class="btn2" onclick="clearW()">Clear</button><button class="btn2" onclick="window.print()">🖨 Print</button></div>'+
+    '<div class="outbox" id="wi-out"><span style="font-size:13px;color:var(--ink-faint)">Your three sentences will appear here as a color-coded paragraph…</span></div></div>';
+}
+
+// ═══════════════════════════════════
+// PHONEME MODULE
+// ═══════════════════════════════════
+function renderPhoneme(L){
+  var exs=L.phoneme.map(function(ex,i){
+    var opts=ex.opts.map(function(o){return '<button class="pxopt" onclick="checkPx('+i+',\''+esc(o)+'\',\''+esc(ex.ans)+'\')">'+o+'</button>';}).join('');
+    return '<div class="pex" id="pex-'+i+'"><div class="pxtype">'+ex.type+'</div><div class="pxq">'+ex.q+'</div><div class="pxopts">'+opts+'</div><div class="pxfb" id="pxf-'+i+'"></div></div>';
+  }).join('');
+  var total=L.phoneme.length;
+  var dots=Array.from({length:total},function(_,i){return '<div class="sdot" id="sd-'+i+'"></div>';}).join('');
+  return '<div class="pmod"><div class="pmod-head"><div class="pmod-badge">Warm-up</div><div><h3>Phoneme Exercises — '+L.grade+'</h3><p>Complete these before opening the 3×7 matrix</p></div></div><div class="pexes">'+exs+'</div><div class="pscore"><span class="pslbl">Score: <strong id="pxsc">0</strong> / '+total+'</span><div class="sdots" id="sdots">'+dots+'</div></div></div>';
+}
+function checkPx(idx,chosen,ans){
+  var pex=document.getElementById('pex-'+idx);
+  if(!pex||pex.dataset.done)return;
+  pex.dataset.done='1';
+  var btns=pex.querySelectorAll('.pxopt');
+  var ok=chosen===ans;
+  btns.forEach(function(b){b.classList.add('dis');if(b.textContent===ans)b.classList.add('ok');else if(b.textContent===chosen&&!ok)b.classList.add('no');});
+  var fb=document.getElementById('pxf-'+idx);
+  fb.textContent=ok?'✓ Correct!':'✗ Answer: '+ans;
+  fb.style.color=ok?'var(--teal)':'var(--coral)';
+  if(!pxScores[curLvl])pxScores[curLvl]=[];
+  pxScores[curLvl][idx]=ok?'hit':'miss';
+  updatePxScore();
+}
+function updatePxScore(){
+  var sc=document.getElementById('pxsc');
+  var dots=document.getElementById('sdots');
+  if(!sc)return;
+  var arr=pxScores[curLvl]||[];
+  var hits=arr.filter(function(x){return x==='hit'}).length;
+  sc.textContent=hits;
+  if(dots){
+    var total=LEVELS[curLvl].phoneme.length;
+    dots.innerHTML=Array.from({length:total},function(_,i){return '<div class="sdot'+(arr[i]==='hit'?' hit':arr[i]==='miss'?' miss':'')+'" id="sd-'+i+'"></div>';}).join('');
+  }
+}
+
+// ═══════════════════════════════════
+// FLUENCY MODULE
+// ═══════════════════════════════════
+function renderFluency(L){
+  var rows=L.matrix.map(function(r,i){
+    return '<div class="frow" id="fr-'+i+'"><div class="frn">'+(i+1)+'</div>'+
+      '<div class="fcell s1" id="fc-'+i+'-0">'+r[0]+'</div>'+
+      '<div class="fcell s2" id="fc-'+i+'-1">'+r[1]+'</div>'+
+    '</div>';
+  }).join('');
+  return secLbl('⏱ Fluency — sentence mode & ⚡ RAN word string drill')+
+  '<div class="fmod">'+
+  '<div class="fmod-head">'+
+    '<div><h3>Fluency Reading — '+L.grade+'</h3><p>Sentence mode: read each row aloud. RAN mode: read the word stream as fast as you can.</p></div>'+
+    '<div class="fctrl">'+
+      '<div class="mode-toggle"><button class="modebt on" id="mb-sentences" onclick="setFMode(\'sentences\')">Sentences</button><button class="modebt" id="mb-ran" onclick="setFMode(\'ran\')">⚡ RAN</button></div>'+
+      '<div class="spds"><button class="spd on" id="spd60" onclick="setSpd(60)">60s</button><button class="spd" id="spd90" onclick="setSpd(90)">90s</button><button class="spd" id="spd120" onclick="setSpd(120)">120s</button></div>'+
+      '<div class="tdisp" id="tdisp">—</div>'+
+      '<button class="tbtn go" id="tbtn" onclick="toggleTimer()">Start</button>'+
+    '</div>'+
+  '</div>'+
+  '<div id="fmod-body">'+
+    '<div id="f-sentences" class="fbody">'+rows+'</div>'+
+    '<div id="f-ran" style="display:none">'+renderRAN(L)+'</div>'+
+  '</div>'+
+  '<div class="fstats"><div class="fst"><div class="fstn" id="fst-r">0</div><div class="fstl">Rows / Words</div></div><div class="fst"><div class="fstn" id="fst-s">0</div><div class="fstl">Sentences</div></div><div class="fst"><div class="fstn" id="fst-t">—</div><div class="fstl">Time</div></div><div class="fst"><div class="fstn" id="fst-b">—</div><div class="fstl">Band</div></div></div>'+
+  '<div class="fresult" id="fresult"></div>'+
+  '</div>';
+}
+
+function renderRAN(L){
+  ranWords=getRANWords(curLvl,40);
+  ranIdx=0;
+  var chips=ranWords.map(function(w,i){return '<span class="ran-word'+(i===0?' cur':'')+'" id="rw-'+i+'">'+w+'</span>';}).join('');
+  return '<div class="ran-wrap">'+
+    '<div class="ran-info"><strong>RAN Word String Drill</strong> — Read each word aloud as fast as you can, left to right. No sentence meaning — pure decoding. Click a word when you\'ve said it, or press Space/Enter to advance.</div>'+
+    '<div class="ran-stream" id="ran-stream">'+chips+'</div>'+
+    '<div class="ran-ctrls">'+
+      '<button class="ran-shuffle" onclick="reshuffleRAN()">🔀 New words</button>'+
+      '<button class="ran-next" onclick="ranNext()">Next word →</button>'+
+      '<span class="ran-count" id="ran-count">Word 1 of '+ranWords.length+'</span>'+
+    '</div>'+
+  '</div>';
+}
+
+function resetRAN(){
+  ranWords=getRANWords(curLvl,40);
+  ranIdx=0;
+  var stream=document.getElementById('ran-stream');
+  if(!stream)return;
+  stream.innerHTML=ranWords.map(function(w,i){return '<span class="ran-word'+(i===0?' cur':'')+'" id="rw-'+i+'">'+w+'</span>';}).join('');
+  var cnt=document.getElementById('ran-count');
+  if(cnt)cnt.textContent='Word 1 of '+ranWords.length;
+}
+function reshuffleRAN(){
+  // Demo: fresh word strings are a full-program feature.
+  toast('🔀 New word sets are part of the full program');
+}
+
+function ranNext(){
+  var cur=document.getElementById('rw-'+ranIdx);
+  if(cur){cur.classList.remove('cur');cur.classList.add('dn');}
+  ranIdx++;
+  var nxt=document.getElementById('rw-'+ranIdx);
+  if(nxt){
+    nxt.classList.add('cur');
+    nxt.scrollIntoView({block:'nearest',behavior:'smooth'});
+  }
+  var cnt=document.getElementById('ran-count');
+  if(cnt)cnt.textContent='Word '+(Math.min(ranIdx+1,ranWords.length))+' of '+ranWords.length;
+  if(ranIdx>=ranWords.length){
+    var t=timerSpd-timerSec;
+    showFResult(false,'ran',ranWords.length,t);
+  }
+}
+
+function setFMode(mode){
+  fluencyMode=mode;
+  document.getElementById('mb-sentences').classList.toggle('on',mode==='sentences');
+  document.getElementById('mb-ran').classList.toggle('on',mode==='ran');
+  document.getElementById('f-sentences').style.display=mode==='sentences'?'':'none';
+  document.getElementById('f-ran').style.display=mode==='ran'?'':'none';
+  stopTimer();
+  timerSec=0;updateTDisp();
+  if(mode==='ran')resetRAN();
+}
+
+// ═══════════════════════════════════
+// TIMER
+// ═══════════════════════════════════
+function initFluency(){timerOn=false;timerSec=0;fluencyDone=0;timerSpd=60;updateTDisp()}
+function setSpd(s){
+  timerSpd=s;[60,90,120].forEach(function(v){var e=document.getElementById('spd'+v);if(e)e.classList.toggle('on',v===s);});
+  if(!timerOn){timerSec=0;updateTDisp();}
+}
+function toggleTimer(){if(timerOn)stopTimer();else startTimer()}
+function startTimer(){
+  timerOn=true;timerSec=timerSpd;
+  var b=document.getElementById('tbtn');if(b){b.textContent='Stop';b.classList.remove('go');}
+  updateTDisp();
+  timerInt=setInterval(function(){
+    timerSec--;updateTDisp();
+    if(timerSec<=0){stopTimer();showFResult(true,fluencyMode,fluencyMode==='ran'?ranIdx:fluencyDone*3,timerSpd);}
+  },1000);
+}
+function stopTimer(){
+  timerOn=false;clearInterval(timerInt);
+  var b=document.getElementById('tbtn');if(b){b.textContent='Restart';b.classList.add('go');}
+}
+function updateTDisp(){
+  var e=document.getElementById('tdisp');if(!e)return;
+  if(timerSec<=0&&!timerOn){e.textContent='—';e.className='tdisp';return;}
+  e.textContent=timerSec+'s';e.className='tdisp'+(timerSec<=10?' danger':'');
+}
+function markRowDone(i){
+  var row=document.getElementById('fr-'+i);if(!row||row.dataset.done)return;
+  row.dataset.done='1';
+  [0,1].forEach(function(c){var fc=document.getElementById('fc-'+i+'-'+c);if(fc)fc.classList.add('dn');});
+  fluencyDone++;
+  updateFStats();
+  if(fluencyDone>=LEVELS[curLvl].matrix.length){stopTimer();showFResult(false,'sentences',fluencyDone*3,timerSpd-timerSec);}
+}
+function updateFStats(){
+  var re=document.getElementById('fst-r');var se=document.getElementById('fst-s');
+  if(re)re.textContent=fluencyMode==='ran'?(ranIdx||0):fluencyDone;
+  if(se)se.textContent=fluencyMode==='ran'?(ranIdx||0):fluencyDone*3;
+}
+function showFResult(timedOut,mode,count,elapsed){
+  var el=document.getElementById('fresult');if(!el)return;
+  var rate=elapsed>0?Math.round(count/elapsed*60):0;
+  var unit=mode==='ran'?'words':'sentences';
+  var band,bc;
+  if(rate<20){band='Building (< 20 '+unit+'/min)';bc='b-slow';}
+  else if(rate<40){band='Developing (20–40 '+unit+'/min)';bc='b-bld';}
+  else if(rate<70){band='Fluent (40–70 '+unit+'/min)';bc='b-flu';}
+  else{band='Advanced (70+ '+unit+'/min)';bc='b-adv';}
+  var te=document.getElementById('fst-t');var be=document.getElementById('fst-b');
+  if(te)te.textContent=elapsed+'s';if(be)be.textContent=band.split(' ')[0];
+  el.className='fresult show';
+  el.innerHTML='<h4>'+(timedOut?'Time\'s up!':'🎉 Complete!')+'</h4>'+
+    '<p>Read <strong>'+count+' '+unit+'</strong> in <strong>'+elapsed+' seconds</strong> · ~<strong>'+rate+' '+unit+'/min</strong></p>'+
+    '<span class="band '+bc+'">'+band+'</span>';
+}
+function addFluencyBtns(){
+  LEVELS[curLvl].matrix.forEach(function(_,i){
+    var row=document.getElementById('fr-'+i);if(!row)return;
+    var b=document.createElement('button');
+    b.className='fchk';b.textContent='✓ Done';
+    b.onclick=function(){markRowDone(i);this.style.display='none';};
+    row.appendChild(b);
+  });
+}
+
+// ═══════════════════════════════════
+// WRITING ZONE HELPERS
+// ═══════════════════════════════════
+function copySlot(slot,text){
+  var ids=['wi-s1','wi-s2','wi-s3'];
+  var e=document.getElementById(ids[slot]);if(e){e.value=text;e.focus();toast('Copied to S'+(slot+1));}
+}
+function insertWord(word){
+  var f=document.activeElement;
+  var slots=['wi-s1','wi-s2','wi-s3'];
+  var t=(f&&slots.indexOf(f.id)>-1)?f:document.getElementById('wi-s1');
+  if(!t)return;
+  t.value+=(t.value&&t.value.slice(-1)!==' '?' ':'')+word;t.focus();
+}
+function clearW(){
+  ['wi-s1','wi-s2','wi-s3'].forEach(function(id){var e=document.getElementById(id);if(e)e.value='';});
+  var o=document.getElementById('wi-out');if(o)o.innerHTML='<span style="font-size:13px;color:var(--ink-faint)">Your three sentences will appear here as a color-coded paragraph…</span>';
+}
+function hesc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function buildParagraph(){
+  var s1=((document.getElementById('wi-s1')||{}).value||'').trim();
+  var s2=((document.getElementById('wi-s2')||{}).value||'').trim();
+  var s3=((document.getElementById('wi-s3')||{}).value||'').trim();
+  if(!s1&&!s2&&!s3){toast('Write at least one sentence first');return;}
+  var out=document.getElementById('wi-out');
+  var ph='<p class="outpara">'+(s1?'<span class="t1">'+hesc(s1)+'</span> ':'')+(s2?'<span class="t2">'+hesc(s2)+'</span> ':'')+(s3?'<span class="t3">'+hesc(s3)+'</span>':'')+'</p>';
+  out.innerHTML=ph+'<div class="aibox"><div class="ailbl">How to read your paragraph</div><div class="aitext">Teal is your S1 engine core — subject + verb. Plum is the S2 second gear — two equal ideas joined by ", and". Gold is the S3 logic gear — the conjunction that creates cause and effect. In the full program, every lesson builds sets like this with step-by-step guidance.</div></div>';
+  toast('Paragraph built ✓');
+}
+
+// ═══════════════════════════════════
+// KEYBOARD SHORTCUT FOR RAN
+// ═══════════════════════════════════
+document.addEventListener('keydown',function(e){
+  if(fluencyMode==='ran'&&timerOn&&(e.key===' '||e.key==='Enter')){
+    e.preventDefault();ranNext();updateFStats();
+  }
+});
+
+// ═══════════════════════════════════
+// UTILS
+// ═══════════════════════════════════
+function esc(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2200)}
+
+// ═══════════════════════════════════
+// INIT
+// ═══════════════════════════════════
+renderPills();
+renderTab();
+</script>
+</body>
+</html>

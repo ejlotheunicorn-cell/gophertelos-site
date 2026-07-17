@@ -69,8 +69,26 @@ export const gradeCards = [
     sampleUrl: null,
     etsyKey: 'g4',
   },
-  { id: 'g5', name: 'Grade 5', hex: depthColors.g5, status: 'coming' },
-  { id: 'g6', name: 'Grade 6', hex: depthColors.g6, status: 'coming' },
+  {
+    id: 'g5',
+    name: 'Grade 5',
+    hex: depthColors.g5,
+    status: 'available',
+    blurb:
+      'Latin and Greek roots, derivational morphology, and embedded relative clauses — the matrix becomes a diagnostic tool.',
+    sampleUrl: null,
+    etsyKey: 'g5',
+  },
+  {
+    id: 'g6',
+    name: 'Grade 6',
+    hex: depthColors.g6,
+    status: 'available',
+    blurb:
+      'Advanced roots, academic vocabulary, and complex sentences across all three tiers — the full arc, complete.',
+    sampleUrl: null,
+    etsyKey: 'g6',
+  },
 ];
 
 // Scope & Sequence page — one row per grade band. `skills` is a list of the

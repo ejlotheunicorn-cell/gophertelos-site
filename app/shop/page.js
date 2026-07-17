@@ -38,8 +38,9 @@ export default function ShopPage() {
             Available now, grade by grade.
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-brand-ink/80">
-            Every purchase happens on our Etsy shop — your checkout, reviews, and instant download
-            all live there. More grades are on the way.
+            The complete arc is here — every grade, Pre-K through Grade 6, available now. Every
+            purchase happens on our Etsy shop, where your checkout, reviews, and instant download all
+            live.
           </p>
           <p className="mt-5 text-base text-brand-ink/80">
             Not sure yet?{' '}
@@ -59,11 +60,11 @@ export default function ShopPage() {
           </div>
 
           <p className="mt-10 text-center text-sm text-brand-ink/60">
-            New grades drop here as they launch.{' '}
+            One coherent system, all seven levels.{' '}
             <a href="/contact" className="font-bold text-brand-teal hover:underline">
               Get on the list
             </a>{' '}
-            to hear first.
+            for updates and new resources.
           </p>
         </Container>
       </section>

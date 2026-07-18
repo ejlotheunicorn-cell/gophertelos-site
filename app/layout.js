@@ -33,6 +33,10 @@ export const metadata = {
       'A structured literacy curriculum built around the 3×7 Syntactic Matrix for dyslexic and developing readers.',
     type: 'website',
   },
+  other: {
+    // Pinterest site verification (public token — safe in <head>)
+    'p:domain_verify': '2ea28746a5ede0d9576a6d2d5646afd7',
+  },
 };
 
 export default function RootLayout({ children }) {
